@@ -1,0 +1,34 @@
+services:
+  #########################################
+  # Developer container                   #
+  #########################################
+  dev:
+    extends:
+      file: compose.base.yaml
+      service: overlay
+    image: ${IMAGE_NAME}:dev
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      target: dev
+      args:
+        - UID=${UID:-1000}
+        - GID=${UID:-1000}
+        - USERNAME=${USERNAME:-ros}
+    volumes:
+      # Mount the source code
+      - ./:/robot_ws/:rw
+      # Mount colcon build artifacts for faster rebuilds
+      - ./.colcon/build/:/robot_ws/build/:rw
+      - ./.colcon/install/:/robot_ws/install/:rw
+      - ./.colcon/log/:/robot_ws/log/:rw
+      # Allows USB hotplugging
+      # - /dev:/dev
+    user: ${USERNAME:-ros}
+    command: sleep infinity
+
+  # foxglove-bridge:
+    # image: husarion/foxglove-bridge:humble-0.7.4-20240320
+    # network_mode: host
+    # ipc: host
+    # command: ros2 launch foxglove_bridge foxglove_bridge_launch.xml port:=8765

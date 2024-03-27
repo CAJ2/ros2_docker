@@ -1,0 +1,42 @@
+services:
+  #########################################
+  # Base docker configuration for ROS2    #
+  #########################################
+  # Base service containing dependencies.
+  base:
+    image: ${IMAGE_NAME}:base
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        ROS_DISTRO: humble
+      target: base
+    # Interactive shell
+    stdin_open: true
+    tty: true
+    # Networking and IPC for ROS 2
+    network_mode: host
+    ipc: host
+    # Needed to display graphical applications
+    privileged: true
+    environment:
+      # Allows graphical programs in the container.
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    volumes:
+      # Allows graphical programs in the container.
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority
+    # devices:
+      # Allows serial connections
+      # - "/dev/ttyUSB0:/dev/ttyUSB0"
+
+  # Overlay service containing source code.
+  overlay:
+    extends: base
+    image: ${IMAGE_NAME}:overlay
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      target: overlay

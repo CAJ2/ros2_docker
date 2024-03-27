@@ -1,0 +1,10 @@
+services:
+  #########################################
+  # Launch definitions                    #
+  #########################################
+  example:
+    extends:
+      file: compose.base.yaml
+      service: overlay
+    command: >
+      ros2 launch example_pkg example_launch.py

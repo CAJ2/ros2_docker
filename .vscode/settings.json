@@ -1,0 +1,32 @@
+{
+	"editor.tabSize": 4,
+	"editor.detectIndentation": true,
+	"editor.insertSpaces": true,
+	"editor.rulers": [
+		100
+	],
+  "files.associations": {
+    "*.repos": "yaml",
+    "*.world": "xml",
+    "*.xacro": "xml"
+  },
+  "python.analysis.extraPaths": [
+    "/opt/ros/humble/lib/python3.10/site-packages"
+  ],
+  "python.autoComplete.extraPaths": [
+    "/opt/ros/humble/lib/python3.10/site-packages"
+  ],
+  // Environment file lets vscode find python files within workspace
+  "python.envFile": "${workspaceFolder}/.env",
+  "C_Cpp.formatting": "disabled",
+  "uncrustify.configPath.linux": "/opt/ros/humble/lib/python3.10/site-packages/ament_uncrustify/configuration/ament_code_style.cfg",
+  "[cpp]": {
+      "editor.defaultFormatter": "zachflower.uncrustify"
+  },
+  "search.exclude": {
+    "**/*.code-search": true,
+    "**/build": true,
+    "**/install": true,
+    "**/log": true
+  }
+}

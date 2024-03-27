@@ -1,0 +1,34 @@
+// See https://aka.ms/vscode-remote/devcontainer.json for format details.
+{
+    "name": "ros2_docker",
+    "dockerComposeFile": "../compose.dev.yaml",
+    "service": "dev",
+    "workspaceFolder": "/robot_ws",
+    // This will launch the container as a non-root user
+    "remoteUser" : "ros",
+    // This will allow you to use a ptrace-based debugger like C++, Go, and Rust.
+    "capAdd": ["SYS_PTRACE"],
+    "securityOpt": ["seccomp=unconfined"],
+    // These are the extensions I like to use with ROS2
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash"
+            },
+            "extensions": [
+                "ms-azuretools.vscode-docker",
+                "ms-vscode.cpptools",
+                "zachflower.uncrustify",
+                "ms-python.python",
+                "ms-python.black-formatter",
+                "twxs.cmake",
+                "ms-vscode.cmake-tools",
+                "ms-iot.vscode-ros",
+                "smilerobotics.urdf",
+                "yzhang.markdown-all-in-one",
+                "redhat.vscode-yaml",
+                "redhat.vscode-xml"
+            ]
+        }
+    }
+}

@@ -1,0 +1,38 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "source /entrypoint.sh && colcon build --cmake-args '-DCMAKE_BUILD_TYPE=RelWithDebInfo'"
+        },
+        {
+            "label": "test",
+            "type": "shell",
+            "command": "source /entrypoint.sh && colcon test && colcon test-result"
+        },
+        {
+            "label": "roslaunch",
+            "type": "shell",
+            "dependsOn": ["build"],
+            "command": "source /entrypoint.sh && ros2 launch ${input:package} ${input:launchfile}"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "package",
+            "type": "promptString",
+            "description": "Package name"
+        },
+        {
+            "id": "program",
+            "type": "promptString",
+            "description": "Program name"
+        },
+        {
+            "id": "launchfile",
+            "type": "promptString",
+            "description": "Launch file name"
+        }
+    ]
+}

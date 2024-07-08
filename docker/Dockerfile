@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1.7-labs
 ARG ROS_DISTRO=humble
 
 # -------------------------------------------
@@ -34,9 +35,11 @@ FROM base AS overlay
 # Create an overlay Colcon workspace
 RUN mkdir -p /robot_ws/src
 WORKDIR /robot_ws
+COPY --parents ./src/*/package.xml ./
+COPY --parents ./src/*/COLCON_IGNORE ./
+RUN rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y
 COPY ./src/ ./src/
 RUN source /base_ws/install/setup.bash \
- && rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y \
  && colcon build --symlink-install
 
 # Set up the entrypoint

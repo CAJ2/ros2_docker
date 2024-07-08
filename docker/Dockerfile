@@ -19,8 +19,9 @@ RUN vcs import < dependencies.repos
 WORKDIR /base_ws
 RUN source /opt/ros/${ROS_DISTRO}/setup.bash \
  && apt-get update -y \
- && rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y \
- && colcon build --symlink-install
+ && rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y
+RUN source /opt/ros/${ROS_DISTRO}/setup.bash \
+ && colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
 # Use Cyclone DDS as middleware
 RUN apt-get update && apt-get install -y --no-install-recommends \
  ros-${ROS_DISTRO}-rmw-cyclonedds-cpp
@@ -40,7 +41,7 @@ COPY --parents ./src/*/COLCON_IGNORE ./
 RUN rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y
 COPY ./src/ ./src/
 RUN source /base_ws/install/setup.bash \
- && colcon build --symlink-install
+ && colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
 
 # Set up the entrypoint
 COPY ./docker/entrypoint.sh /
